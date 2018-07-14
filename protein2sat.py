@@ -15,4 +15,9 @@ for x in range((len(i)*len(i))):
 
 print(i)
 print(j)
-#Need to make an X(i,j) still
+# Each spot needs to be placed
+# Creation of X(i,j) represented as a 2d array
+# We just need to specify that each i will be placed eventualy
+# So, for every possible combination of i and j, we need to create a variable x.
+# So this will be i * j big. so n^3 big 
+# (or of all possible postions for 1) ^ (or of all possbile possitions for 2) ^ .... (or of all possbile for i)
