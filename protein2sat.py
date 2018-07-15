@@ -41,4 +41,6 @@ for x in range(len(j)):
     placementlist.append(currentlist)
 print(placementlist)
 # Now, each slot j has i variables 'assigned' to it. 
-# Just needs to be written to the file, but this is the last step
+# Just needs to be written to the file, but this is the last step\
+''' Rule 2, each acid must be placed '''
+''' Rule 3, each acid must be placed adjacent to the previously placed one. The first is the exception '''
