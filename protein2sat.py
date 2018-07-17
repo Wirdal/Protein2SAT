@@ -29,18 +29,24 @@ Mat = [[0 for x in range(len(i))] for y in range(len(j))]
 print(Mat)
 # for each place in the grid, for each position, create the placement rule
 # Creating a way to store each on of these placement rules
-placementlist = []
+uniquelist = []
 for x in range(len(j)):
     currentlist = []
     for y in range(len(i)):
         # Need to generate a new variable here
         varcount = varcount + 1
-        print("Varcount is " + str(varcount))
         currentlist.append(varcount)
     currentlist.append(0)
-    placementlist.append(currentlist)
-print(placementlist)
+    uniquelist.append(currentlist)
+print(uniquelist)
 # Now, each slot j has i variables 'assigned' to it. 
 # Just needs to be written to the file, but this is the last step\
 ''' Rule 2, each acid must be placed '''
+# Since each list within placement list represents the actual square in the grid, we need to go a level further
+# each i must be true. So they need to each exist in their own clauses But how do I represent them?
+placementlist = []
+for x in range(len(i)):
+    varcount = varcount + 1
+    placementlist.append(varcount)
+print(placementlist)
 ''' Rule 3, each acid must be placed adjacent to the previously placed one. The first is the exception '''
