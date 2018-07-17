@@ -7,7 +7,7 @@ i = list(input("Enter input string \n"))
 varcount = 0
 """Placement rules"""
 
-'''Rule 1; no two acids in the same slot of the grid'''
+'''Rule 1; Each acid must be placed'''
 #Let there be a variable, X(i,j), is either 1 or 0; true or false, if character I is placed in position J
 #i goes from 1 to n, j goes to  1 to n^2
 j = []
@@ -30,9 +30,9 @@ print(Mat)
 # for each place in the grid, for each position, create the placement rule
 # Creating a way to store each on of these placement rules
 uniquelist = []
-for x in range(len(j)):
+for x in range(len(i)):
     currentlist = []
-    for y in range(len(i)):
+    for y in range(len(j)):
         # Need to generate a new variable here
         varcount = varcount + 1
         currentlist.append(varcount)
@@ -41,12 +41,6 @@ for x in range(len(j)):
 print(uniquelist)
 # Now, each slot j has i variables 'assigned' to it. 
 # Just needs to be written to the file, but this is the last step\
-''' Rule 2, each acid must be placed '''
-# Since each list within placement list represents the actual square in the grid, we need to go a level further
-# each i must be true. So they need to each exist in their own clauses But how do I represent them?
-placementlist = []
-for x in range(len(i)):
-    varcount = varcount + 1
-    placementlist.append(varcount)
-print(placementlist)
+''' One acid per grid '''
+# 
 ''' Rule 3, each acid must be placed adjacent to the previously placed one. The first is the exception '''
