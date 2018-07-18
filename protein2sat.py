@@ -44,7 +44,7 @@ print(placementlist)
 ''' Rule 2, One acid per grid max '''
 # Should be something such as 
 # For each j, for each i
-#  
+#   i but not i -1, i +1 ....
 
 ''' Rule 3, each acid must be placed adjacent to the previously placed one. The first is the exception '''
 # For i, but not the first
@@ -52,3 +52,6 @@ print(placementlist)
 #   the grid to the bottom, top , left, or right
 #   Exceptions are on the edges.
 # Corners are 0, n, n^2, n^2-n
+# Edges are 0 to n
+# n^2 - n to n^2
+# then math needs to b eodne for the left and right edges
