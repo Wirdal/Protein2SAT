@@ -41,7 +41,7 @@ for x in range(len(i)):
 print(placementlist)
 # Now, each slot j has i variables 'assigned' to it. 
 # Just needs to be written to the file, but this is the last step
-''' One acid per grid '''
+''' Rule 2, One acid per grid max '''
 # Should be something such as 
 # For each j, for each i
 #  
@@ -52,4 +52,3 @@ print(placementlist)
 #   the grid to the bottom, top , left, or right
 #   Exceptions are on the edges.
 # Corners are 0, n, n^2, n^2-n
-
