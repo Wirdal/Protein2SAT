@@ -29,23 +29,37 @@ Mat = [[0 for x in range(len(i))] for y in range(len(j))]
 # for each place in the grid, for each position, create the placement rule
 # Creating a way to store each on of these placement rules
 placementlist = []
+varcount = 0
 for x in range(len(i)):
-    varcount = 0
     currentlist = []
     for y in range(len(j)):
         # Need to generate a new variable here
         varcount = varcount + 1
         currentlist.append(varcount)
-    currentlist.append(0)
     placementlist.append(currentlist)
 print(placementlist)
 # Now, each slot j has i variables 'assigned' to it. 
 # Just needs to be written to the file, but this is the last step
 ''' Rule 2, One acid per grid max '''
-# Should be something such as 
-# For each j, for each i
-#   i but not i -1, i +1 ....
+# For each possible pair of acids in each location, not both of those
 
+# For each list
+#   For each list + 1
+#       For each elem in the first list
+#          For each elem in the secon dlist
+#              Negate the two values, append them to list
+uniquelist = []
+for firstlist in range(len(placementlist)):
+    # First list is getting slices of the placement list, except for the last
+    if firstlist == len(placementlist) - 1:
+        break
+    else:
+        for secondlist in range(len(placementlist[firstlist+1:])):
+            secondlist = secondlist+firstlist+1
+            for firstelem in placementlist[firstlist]:
+                for secondelem in placementlist[secondlist]:
+                    uniquelist.append([-firstelem, -secondelem])
+print(len(uniquelist))
 ''' Rule 3, each acid must be placed adjacent to the previously placed one. The first is the exception '''
 # For i, but not the first
 # i+1 must be in either
