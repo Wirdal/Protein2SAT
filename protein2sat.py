@@ -4,7 +4,7 @@
 i = list(input("Enter input string \n"))
 # Slice the input into a list
 # A count of how many variables we have
-varcount = 1
+varcount = 0
 """Placement rules"""
 
 # Let there be a variable, X(i,j), is either 1 or 0; true or false, if character I is placed in position J
