@@ -4,7 +4,7 @@
 i = list(input("Enter input string \n"))
 # Slice the input into a list
 # A count of how many variables we have
-varcount = 0
+varcount = 1
 """Placement rules"""
 
 # Let there be a variable, X(i,j), is either 1 or 0; true or false, if character I is placed in position J
@@ -29,7 +29,6 @@ Mat = [[0 for x in range(len(i))] for y in range(len(j))]
 # for each place in the grid, for each position, create the placement rule
 # Creating a way to store each on of these placement rules
 placementlist = []
-varcount = 0
 for x in range(len(i)):
     currentlist = []
     for y in range(len(j)):
