@@ -60,11 +60,19 @@ for firstlist in range(len(placementlist)):
                     uniquelist.append([-firstelem, -secondelem])
 print(len(uniquelist))
 ''' Rule 3, each acid must be placed adjacent to the previously placed one. The first is the exception '''
-# For i, but not the first
-# i+1 must be in either
-#   the grid to the bottom, top , left, or right
-#   Exceptions are on the edges.
-# Corners are 0, n, n^2, n^2-n
-# Edges are 0 to n
-# n^2 - n to n^2
-# then math needs to b eodne for the left and right edges
+
+for x in placementlist:
+    n = len(i)
+    # So the first acid can be placed anywhere. So there are no restircitons
+    # To where it goes
+    # So we only need to go forward
+    # We start at the first list, and create the edges for the first list
+
+    # From 1 to n^2 - n + 1
+    leftedge = x[1:n^2-n+1:n]
+    # From 1 to n
+    topedge = x[1:n]
+    # from n to n^2 by n steps
+    rightedge = x[n:n^2:n]
+    # n^2 - n + 1 to n^2
+    bottomedge = x[n^2-n+1:n^2]
