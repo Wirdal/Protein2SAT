@@ -11,7 +11,7 @@ varcount = 0
 # i goes from 1 to n, j goes to  1 to n^2
 j = []
 for x in range((len(i)*len(i))):
-    j.append(x)
+	j.append(x)
 
 '''Rule 1; Each acid must be placed'''
 
@@ -30,12 +30,12 @@ Mat = [[0 for x in range(len(i))] for y in range(len(j))]
 # Creating a way to store each on of these placement rules
 placementlist = []
 for x in range(len(i)):
-    currentlist = []
-    for y in range(len(j)):
-        # Need to generate a new variable here
-        varcount = varcount + 1
-        currentlist.append(varcount)
-    placementlist.append(currentlist)
+	currentlist = []
+	for y in range(len(j)):
+		# Need to generate a new variable here
+		varcount = varcount + 1
+		currentlist.append(varcount)
+	placementlist.append(currentlist)
 print(placementlist)
 # Now, each slot j has i variables 'assigned' to it. 
 # Just needs to be written to the file, but this is the last step
@@ -45,34 +45,76 @@ print(placementlist)
 # For each list
 #   For each list + 1
 #       For each elem in the first list
-#          For each elem in the secon dlist
+#          For each elem in the second list
 #              Negate the two values, append them to list
 uniquelist = []
 for firstlist in range(len(placementlist)):
-    # First list is getting slices of the placement list, except for the last
-    if firstlist == len(placementlist) - 1:
-        break
-    else:
-        for secondlist in range(len(placementlist[firstlist+1:])):
-            secondlist = secondlist+firstlist+1
-            for firstelem in placementlist[firstlist]:
-                for secondelem in placementlist[secondlist]:
-                    uniquelist.append([-firstelem, -secondelem])
+	# First list is getting slices of the placement list, except for the last
+	if firstlist == len(placementlist) - 1:
+		break
+	else:
+		for secondlist in range(len(placementlist[firstlist+1:])):
+			secondlist = secondlist+firstlist+1
+			for firstelem in placementlist[firstlist]:
+				for secondelem in placementlist[secondlist]:
+					uniquelist.append([-firstelem, -secondelem])
 print(len(uniquelist))
 ''' Rule 3, each acid must be placed adjacent to the previously placed one. The first is the exception '''
+adjacentlist =[]
+for x in range(len(placementlist)):
+	# Much like the previous one, however we only needs to look at one list and the
+	# one that immediatley goes after it
+	print(x)
+	n = len(i)
+	# So the first acid can be placed anywhere. So there are no restircitons
+	# To where it goes
+	# So we only need to go forward
+	# We start at the first list, and create the edges for the first list
 
-for x in placementlist:
-    n = len(i)
-    # So the first acid can be placed anywhere. So there are no restircitons
-    # To where it goes
-    # So we only need to go forward
-    # We start at the first list, and create the edges for the first list
+	# From 1 to n^2 - n + 1
+	# Needs to get the last
+	# WORKS
+	leftedge = x[::n]
+	# From 1 to n
+	# WORKS
+	topedge = x[:n]
+	# from n to n^2 by n steps
+	rightedge = x[n-1::n]
+	# n^2 - n + 1 to n^2
+	# A very lazy way of getting these, but it works
+	x.reverse()
+	bottomedge = x[:n]
+	# To confirm by eye faster
+	bottomedge.reverse()
 
-    # From 1 to n^2 - n + 1
-    leftedge = x[1:n^2-n+1:n]
-    # From 1 to n
-    topedge = x[1:n]
-    # from n to n^2 by n steps
-    rightedge = x[n:n^2:n]
-    # n^2 - n + 1 to n^2
-    bottomedge = x[n^2-n+1:n^2]
+	# Now we need to check if we're in the edge
+	for y in x:
+		localadjacencylist = []
+		up = True
+		down = True
+		right = True
+		left = True
+		# Check if the elem we're checking is OK 
+		if y in topedge: up = False
+		if y in bottomedge: down = False
+		if y in leftedge: left = False
+		if y in rightedge: right = False
+		
+		# Now based on if the elem was in the, generate the rule
+		# A -> B == B V -A
+		# Where A is the placement,
+		# B is the possible spots for the next acid
+		if up:
+			# -n
+			localadjacencylist.append()
+		if down:
+			# +n
+			localadjacencylist.append()
+		if right:
+			# +1
+			localadjacencylist.append()
+		if left:
+			# -1
+			localadjacencylist.append()
+
+	print(leftedge, topedge, rightedge, bottomedge)
