@@ -62,10 +62,20 @@ print(len(uniquelist))
 ''' Rule 3, each acid must be placed adjacent to the previously placed one. The first is the exception '''
 adjacentlist =[]
 for x in range(len(placementlist)):
+	
+	try:
+		firstlist = placementlist[x]
+		# This is the one that should cause the index error
+		secondlist = placementlist[x + 1]
+	except IndexError:
+		# Should be done if we get here
+		break
+	
 	# Much like the previous one, however we only needs to look at one list and the
 	# one that immediatley goes after it
-	print(x)
 	n = len(i)
+	matsize = n**2
+	# We also need to take care of the next things
 	# So the first acid can be placed anywhere. So there are no restircitons
 	# To where it goes
 	# So we only need to go forward
@@ -74,22 +84,24 @@ for x in range(len(placementlist)):
 	# From 1 to n^2 - n + 1
 	# Needs to get the last
 	# WORKS
-	leftedge = x[::n]
+	leftedge = firstlist[::n]
 	# From 1 to n
 	# WORKS
-	topedge = x[:n]
+	topedge = firstlist[:n]
 	# from n to n^2 by n steps
-	rightedge = x[n-1::n]
+	rightedge = firstlist[n-1::n]
 	# n^2 - n + 1 to n^2
 	# A very lazy way of getting these, but it works
-	x.reverse()
-	bottomedge = x[:n]
+	firstlist.reverse()
+	bottomedge = firstlist[:n]
 	# To confirm by eye faster
 	bottomedge.reverse()
-
+	firstlist.reverse()
 	# Now we need to check if we're in the edge
-	for y in x:
+	for y in firstlist:
+		# We only need to go through the 
 		localadjacencylist = []
+		localadjacencylist.append(-y)
 		up = True
 		down = True
 		right = True
@@ -106,15 +118,17 @@ for x in range(len(placementlist)):
 		# B is the possible spots for the next acid
 		if up:
 			# -n
-			localadjacencylist.append()
+			# Just want to get the next matrix.
+			# So we should only need to add my the square of n
+			localadjacencylist.append((matsize + y) - n)
 		if down:
 			# +n
-			localadjacencylist.append()
+			localadjacencylist.append((matsize + y) + n)
 		if right:
 			# +1
-			localadjacencylist.append()
+			localadjacencylist.append((matsize + y) + 1)
 		if left:
 			# -1
-			localadjacencylist.append()
-
-	print(leftedge, topedge, rightedge, bottomedge)
+			localadjacencylist.append((matsize + y) - 1)
+		adjacentlist.append(localadjacencylist)
+	
