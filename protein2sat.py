@@ -131,4 +131,26 @@ for x in range(len(placementlist)):
 			# -1
 			localadjacencylist.append((matsize + y) - 1)
 		adjacentlist.append(localadjacencylist)
-	
+
+'''
+All placement rules are done. We just need to do the rest of the rules
+The next big one is how we define matches. We need to first define all possible
+matches before we do anything else
+'''
+# What are the possible matchings, where do they come from?
+# We need to look at every 1, and determine possible matchings from the rest of the string. 
+# We won't need to look back, same kind of thinking as in 2.
+# And we still have the same varcount, so we can just keep going from it
+# But what are the placement rules? there must be some mathematical notation
+# We need to find a formula
+# Otherwise, we COULD create variables for everything, but that could be a big slowdown.
+# No logical problems would be created though. This isn't a placement rule, just a matching one.
+# But the basic logic for a matching should be
+# 	Some 1, and some adjacent other 1, -> a matching variable
+#	A -> B
+#   (1 ^ 1 (another 1)) -> matching var
+#   B V -A
+#	matching var V (-1 V -1(another 1))
+# NOTE this needs to be done for every possible pair that is next to the first 1
+# Is it faster to compute at the high level where the next 1's could go? or is it faster to create variables willy nilly
+# and let the cnf handle them?
