@@ -36,7 +36,6 @@ for x in range(len(i)):
 		varcount = varcount + 1
 		currentlist.append(varcount)
 	placementlist.append(currentlist)
-print(placementlist)
 # Now, each slot j has i variables 'assigned' to it. 
 # Just needs to be written to the file, but this is the last step
 ''' Rule 2, One acid per grid max '''
@@ -154,3 +153,13 @@ matches before we do anything else
 # NOTE this needs to be done for every possible pair that is next to the first 1
 # Is it faster to compute at the high level where the next 1's could go? or is it faster to create variables willy nilly
 # and let the cnf handle them?
+# IT does not matter, we just simply need to go to 
+
+# Grab the index of every single 1
+indexlist = []
+for x in range(len(i)):
+	if i[x] == "1":
+		indexlist.append(x)
+print(indexlist)
+ # We have the indexes of all 1's. We can start to add from that
+for x in range(len(indexlist)):
