@@ -36,6 +36,7 @@ for x in range(len(i)):
 		varcount = varcount + 1
 		currentlist.append(varcount)
 	placementlist.append(currentlist)
+print(placementlist)
 # Now, each slot j has i variables 'assigned' to it. 
 # Just needs to be written to the file, but this is the last step
 ''' Rule 2, One acid per grid max '''
@@ -159,7 +160,15 @@ matches before we do anything else
 indexlist = []
 for x in range(len(i)):
 	if i[x] == "1":
-		indexlist.append(x)
-print(indexlist)
+		indexlist.append(int(x))
  # We have the indexes of all 1's. We can start to add from that
-for x in range(len(indexlist)):
+for x in indexlist:
+	for y in indexlist[indexlist.index(x)+1:]:
+		# x is the current, y is one after it
+		# if distance between them is great enough
+		if (x + 3) <= y:
+			# distance is great enough
+			# create a rule
+			pass
+		else:
+			pass
