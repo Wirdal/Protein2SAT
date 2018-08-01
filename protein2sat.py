@@ -2,6 +2,7 @@
 """Written in python 3.6"""
 # Getting input
 i = list(input("Enter input string \n"))
+n = len(i)
 # Slice the input into a list
 # A count of how many variables we have
 varcount = 0
@@ -73,7 +74,7 @@ for x in range(len(placementlist)):
 	
 	# Much like the previous one, however we only needs to look at one list and the
 	# one that immediatley goes after it
-	n = len(i)
+
 	matsize = n**2
 	# We also need to take care of the next things
 	# So the first acid can be placed anywhere. So there are no restircitons
@@ -152,23 +153,38 @@ matches before we do anything else
 #   B V -A
 #	matching var V (-1 V -1(another 1))
 # NOTE this needs to be done for every possible pair that is next to the first 1
-# Is it faster to compute at the high level where the next 1's could go? or is it faster to create variables willy nilly
+# Is it faster to compute at the high level where the next 1's could go?
+# or is it faster to create variables willy nilly
 # and let the cnf handle them?
 # IT does not matter, we just simply need to go to 
 
 # Grab the index of every single 1
 indexlist = []
+matchinglist = []
 for x in range(len(i)):
 	if i[x] == "1":
 		indexlist.append(int(x))
  # We have the indexes of all 1's. We can start to add from that
 for x in indexlist:
-	for y in indexlist[indexlist.index(x)+1:]:
-		# x is the current, y is one after it
-		# if distance between them is great enough
+	if x == indexlist[len(indexlist)-1]:
+		break
+	n1 = placementlist[x]
+	leftedge = n1[::n]
+	rightede = n1[n-1::n]
+	topedge = n1[:n]
+	n1.reverse()
+	bottomedge = n1[:n]
+	bottomedge.reverse()
+	n1.reverse()
+	for y in indexlist[indexlist.index(x)+1:]: # the next elem in indexlist
+	# x is the current, y is one after it
+	# if distance between them is great enough
 		if (x + 3) <= y:
-			# distance is great enough
-			# create a rule
+			n2 = placementlist[y]
+			# These are the respective points for the 1's
+			# Define the edges for y
+			# define the matching rules
 			pass
 		else:
 			pass
+del indexlist
