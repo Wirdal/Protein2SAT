@@ -181,9 +181,18 @@ for x in indexlist:
 	# if distance between them is great enough
 		if (x + 3) <= y:
 			n2 = placementlist[y]
-			# These are the respective points for the 1's
-			# Define the edges for y
-			# define the matching rules
+			for z in n2:
+				# rules created here
+				# do we make a seperate clause for each one? or just one clause
+				if y in topedge: up = False
+				if y in bottomedge: down = False
+				if y in leftedge: left = False
+				if y in rightedge: right = False
+				if up:
+				if down:
+				if left:
+				if right:
+				
 			pass
 		else:
 			pass
