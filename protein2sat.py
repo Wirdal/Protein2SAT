@@ -25,7 +25,7 @@ for x in range((len(i)*len(i))):
 #
 # Matrix = [[0 for x in range(w)] for y in range(h)] 
 # First array slice denotes the place in the grid, second denotes the place in the input string 
-Mat = [[0 for x in range(len(i))] for y in range(len(j))]
+#Mat = [[0 for x in range(len(i))] for y in range(len(j))]
 #print(Mat)
 # for each place in the grid, for each position, create the placement rule
 # Creating a way to store each on of these placement rules
@@ -37,7 +37,6 @@ for x in range(len(i)):
 		varcount = varcount + 1
 		currentlist.append(varcount)
 	placementlist.append(currentlist)
-print(placementlist)
 # Now, each slot j has i variables 'assigned' to it. 
 # Just needs to be written to the file, but this is the last step
 ''' Rule 2, One acid per grid max '''
@@ -45,21 +44,28 @@ print(placementlist)
 
 # For each list
 #   For each list + 1
-#       For each elem in the first list
-#          For each elem in the second list
-#              Negate the two values, append them to list
+#       For each elem in the first list, and the corresponding elem in each matrix past it
+#           Negate the two values, append them to list
 uniquelist = []
-for firstlist in range(len(placementlist)):
+#TODO fix no vatriable placement allowed
+for index in range(len(placementlist)):
+	# Grabbing elems
 	# First list is getting slices of the placement list, except for the last
-	if firstlist == len(placementlist) - 1:
+	if index == len(placementlist) - 1:
 		break
 	else:
-		for secondlist in range(len(placementlist[firstlist+1:])):
-			secondlist = secondlist+firstlist+1
-			for firstelem in placementlist[firstlist]:
-				for secondelem in placementlist[secondlist]:
-					uniquelist.append([-firstelem, -secondelem])
-print(len(uniquelist))
+		for firstlist in placementlist[index]:
+			# Grabing the first list
+			for firstelem in firstlist:
+				# grabbed the first elem in that list
+				for secondlist in placementlist[index+1]:
+
+				uniquelist.append([-firstelem, -secondelem])
+#For each list in the matrix
+	# for each elem in the most recent list
+		# For all other lists	
+			# take the elem, and the same elem in the other lists and negate them
+
 ''' Rule 3, each acid must be placed adjacent to the previously placed one. The first is the exception '''
 adjacentlist =[]
 for x in range(len(placementlist)):
@@ -133,6 +139,7 @@ for x in range(len(placementlist)):
 			localadjacencylist.append((matsize + y) - 1)
 		adjacentlist.append(localadjacencylist)
 
+#print("ADj list", adjacentlist)
 '''
 All placement rules are done. We just need to do the rest of the rules
 The next big one is how we define matches. We need to first define all possible
@@ -181,6 +188,7 @@ for x in indexlist:
 	# if distance between them is great enough
 		if (x + 3) <= y:
 			n2 = placementlist[y]
+			"""
 			for z in n2:
 				# rules created here
 				# do we make a seperate clause for each one? or just one clause
@@ -192,7 +200,7 @@ for x in indexlist:
 				if down:
 				if left:
 				if right:
-				
+			"""
 			pass
 		else:
 			pass
