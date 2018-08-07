@@ -41,26 +41,21 @@ for x in range(len(i)):
 # Just needs to be written to the file, but this is the last step
 ''' Rule 2, One acid per grid max '''
 # For each possible pair of acids in each location, not both of those
-
-# For each list
-#   For each list + 1
-#       For each elem in the first list, and the corresponding elem in each matrix past it
-#           Negate the two values, append them to list
 uniquelist = []
 #TODO fix no vatriable placement allowed
 for index in range(len(placementlist)):
-	# Grabbing elems
-	# First list is getting slices of the placement list, except for the last
-	if index == len(placementlist) - 1:
+	print(index)
+	firstlist = placementlist[index]
+	try:
+		rest = placementlist[index + 1 :]
+	except IndexError:
 		break
-	else:
-		for firstlist in placementlist[index]:
-			# Grabing the first list
-			for firstelem in firstlist:
-				# grabbed the first elem in that list
-				for secondlist in placementlist[index+1]:
-
-				uniquelist.append([-firstelem, -secondelem])
+	for firstelem in firstlist:
+			for secondlist in rest:
+				uniquelist.append([-firstelem, -secondlist[firstlist.index(firstelem)]])
+		# we've got all the pieces, just need to put it all together
+print(uniquelist)
+	# Finish this
 #For each list in the matrix
 	# for each elem in the most recent list
 		# For all other lists	
