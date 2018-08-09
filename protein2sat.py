@@ -42,7 +42,6 @@ for x in range(len(i)):
 ''' Rule 2, One acid per grid max '''
 # For each possible pair of acids in each location, not both of those
 uniquelist = []
-#TODO fix no vatriable placement allowed
 for index in range(len(placementlist)):
 	print(index)
 	firstlist = placementlist[index]
@@ -159,13 +158,13 @@ matches before we do anything else
 # or is it faster to create variables willy nilly
 # and let the cnf handle them?
 # IT does not matter, we just simply need to go to 
-
 # Grab the index of every single 1
 indexlist = []
 matchinglist = []
 for x in range(len(i)):
 	if i[x] == "1":
 		indexlist.append(int(x))
+print(indexlist)
  # We have the indexes of all 1's. We can start to add from that
 for x in indexlist:
 	if x == indexlist[len(indexlist)-1]:
@@ -180,23 +179,32 @@ for x in indexlist:
 	n1.reverse()
 	for y in indexlist[indexlist.index(x)+1:]: # the next elem in indexlist
 	# x is the current, y is one after it
-	# if distance between them is great enough
-		if (x + 3) <= y:
+	# if distance between them is great enough and an even number
+		if ((x + 3) <= y) and ((x+y +3) % 2) == 0:
 			n2 = placementlist[y]
-			"""
-			for z in n2:
+			for firstelem in n1:
 				# rules created here
-				# do we make a seperate clause for each one? or just one clause
-				if y in topedge: up = False
-				if y in bottomedge: down = False
-				if y in leftedge: left = False
-				if y in rightedge: right = False
+				# we make a new clause for each possible placement
+				if firstelem in topedge: up = False
+				if firstelem in bottomedge: down = False
+				if firstelem in leftedge: left = False
+				if firstelem in rightedge: right = False
 				if up:
+					varcount = varcount + 1
+					secondelem = n2[n1.index(firstelem) - n]
+					matchinglist.append(varcount, -firstelem, -secondelem)
 				if down:
+					varcount = varcount + 1
+					secondelem n2[n1.index(firstelem) + n]
+					matchinglist.append(varcount, -firstelem, -secondelem)
 				if left:
+					varcount = varcount + 1
+					secondelem n2[n1.index(firstelem) - 1]
+					matchinglist.append(varcount, -firstelem, -secondelem)
 				if right:
-			"""
-			pass
-		else:
-			pass
+					varcount = varcount + 1
+					secondelem n2[n1.index(firstelem) + 1]
+					matchinglist.append(varcount, -firstelem, -secondelem)
+			else:
+				pass
 del indexlist
