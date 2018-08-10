@@ -43,7 +43,6 @@ for x in range(len(i)):
 # For each possible pair of acids in each location, not both of those
 uniquelist = []
 for index in range(len(placementlist)):
-	print(index)
 	firstlist = placementlist[index]
 	try:
 		rest = placementlist[index + 1 :]
@@ -53,7 +52,6 @@ for index in range(len(placementlist)):
 			for secondlist in rest:
 				uniquelist.append([-firstelem, -secondlist[firstlist.index(firstelem)]])
 		# we've got all the pieces, just need to put it all together
-print(uniquelist)
 	# Finish this
 #For each list in the matrix
 	# for each elem in the most recent list
@@ -164,7 +162,7 @@ matchinglist = []
 for x in range(len(i)):
 	if i[x] == "1":
 		indexlist.append(int(x))
-print(indexlist)
+print("index list", indexlist)
  # We have the indexes of all 1's. We can start to add from that
 for x in indexlist:
 	if x == indexlist[len(indexlist)-1]:
@@ -183,6 +181,9 @@ for x in indexlist:
 		if ((x + 3) <= y) and ((x+y +3) % 2) == 0:
 			n2 = placementlist[y]
 			for firstelem in n1:
+				if firstelem == n1[len(n1)-1]:
+					break
+				up, down, left, right = True, True, True, True
 				# rules created here
 				# we make a new clause for each possible placement
 				if firstelem in topedge: up = False
@@ -192,19 +193,20 @@ for x in indexlist:
 				if up:
 					varcount = varcount + 1
 					secondelem = n2[n1.index(firstelem) - n]
-					matchinglist.append(varcount, -firstelem, -secondelem)
+					matchinglist.append([varcount, -firstelem, -secondelem])
 				if down:
 					varcount = varcount + 1
-					secondelem n2[n1.index(firstelem) + n]
-					matchinglist.append(varcount, -firstelem, -secondelem)
+					secondelem = n2[n1.index(firstelem) + n]
+					matchinglist.append([varcount, -firstelem, -secondelem])
 				if left:
 					varcount = varcount + 1
-					secondelem n2[n1.index(firstelem) - 1]
-					matchinglist.append(varcount, -firstelem, -secondelem)
+					secondelem = n2[n1.index(firstelem) - 1]
+					matchinglist.append([varcount, -firstelem, -secondelem])
 				if right:
 					varcount = varcount + 1
-					secondelem n2[n1.index(firstelem) + 1]
-					matchinglist.append(varcount, -firstelem, -secondelem)
+					secondelem = n2[n1.index(firstelem) + 1]
+					matchinglist.append([varcount, -firstelem, -secondelem])
 			else:
 				pass
 del indexlist
+print(matchinglist)
