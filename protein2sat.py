@@ -169,7 +169,7 @@ for x in indexlist:
 		break
 	n1 = placementlist[x]
 	leftedge = n1[::n]
-	rightede = n1[n-1::n]
+	rightedge = n1[n-1::n]
 	topedge = n1[:n]
 	n1.reverse()
 	bottomedge = n1[:n]
@@ -181,8 +181,8 @@ for x in indexlist:
 		if ((x + 3) <= y) and ((x+y +3) % 2) == 0:
 			n2 = placementlist[y]
 			for firstelem in n1:
-				if firstelem == n1[len(n1)-1]:
-					break
+				#if firstelem == n1[len(n1)-1]:
+				#	break
 				up, down, left, right = True, True, True, True
 				# rules created here
 				# we make a new clause for each possible placement
@@ -209,4 +209,4 @@ for x in indexlist:
 			else:
 				pass
 del indexlist
-print(matchinglist)
+print(len(matchinglist))
