@@ -209,4 +209,8 @@ for x in indexlist:
 			else:
 				pass
 del indexlist
-print(len(matchinglist))
+
+#now, we just need to count
+# outlining it 
+# We construct a binary tree, with n^3 + 1 bewing the starting variable
+# then recursivley go up, counting each ones
