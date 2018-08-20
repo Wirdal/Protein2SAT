@@ -213,4 +213,47 @@ del indexlist
 #now, we just need to count
 # outlining it 
 # We construct a binary tree, with n^3 + 1 bewing the starting variable
-# then recursivley go up, counting each ones
+# then recursivley go up, counting each permuation of the sum
+# but how to be accomplish this?
+# we need to be recursive on the thigns we create too
+'''
+Final step, other than writing to a file, I just need to count
+Argueably the most difficult step, need to create a lot of clauses, and test based on the target
+'''
+
+print(adjacentlist)
+
+'''
+Writing to the file
+'''
+#recall dimacas format
+#lines start for c for comment
+#needs da single p for paramaters. Will be the varcount and the total number of clauses
+clausenum = len(placementlist) + len(uniquelist) + len(adjacentlist) + len(matchinglist) #+ the counting list
+#varcount is already perfect
+with open(str(i) + ".txt" , mode ='x') as file:
+	#write some basic stuff
+	file.write("c for the string {} \n".format(str(i)))
+	file.write("p cnf {} {} \n".format(varcount, clausenum))
+	#start writing the meat
+	for a in placementlist:
+		for b in a:
+			file.write("{} ".format(b))
+		file.write("0 \n")
+	for c in uniquelist:
+		for d in c:
+			file.write("{} ".format(d))
+		file.write("0 \n")
+	for d in adjacentlist:
+		for e in d:
+			file.write("{} ".format(e))
+		file.write("0 \n")
+	for f in matchinglist:
+		for g in f:
+			file.write("{} ".format(g))
+		file.write("0 \n")
+	#for x in countinglist
+		#for l in x:
+			#...
+		#...
+#Done!
