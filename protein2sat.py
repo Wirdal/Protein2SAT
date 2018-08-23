@@ -221,8 +221,15 @@ Final step, other than writing to a file, I just need to count
 Argueably the most difficult step, need to create a lot of clauses, and test based on the target
 '''
 
-print(adjacentlist)
+#while there are still variables to be counted
+	#For each 2 'count' variable
+		# create another count variable in its own list
+# Create all permutations of counting, from bottom up.
+# Add each combination to the lsit
 
+for i in range(n**3, varcount):
+	#for every 2 i, create a list
+	
 '''
 Writing to the file
 '''
