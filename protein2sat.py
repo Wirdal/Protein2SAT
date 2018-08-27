@@ -226,10 +226,24 @@ Argueably the most difficult step, need to create a lot of clauses, and test bas
 		# create another count variable in its own list
 # Create all permutations of counting, from bottom up.
 # Add each combination to the lsit
+print(n**3 + 1, varcount)
+#every non-counting variable
+leaflist= []
+for leafs in range(n**3 + 1, varcount + 1):
+	# Create the initial list
+	leaflist.append(leafs)
+print(leaflist)
 
-for i in range(n**3, varcount):
-	#for every 2 i, create a list
-	
+countingtree = [[leaflist]]
+#We will create a list for each level of height, which we can calculate, since we know the number of leafs
+from math import log2
+height = log2(len(leaflist))+1
+print(len(leaflist))
+print(height)
+for h in range(int(height)-1):
+	countingtree.append([])
+print(countingtree)
+
 '''
 Writing to the file
 '''
@@ -238,7 +252,7 @@ Writing to the file
 #needs da single p for paramaters. Will be the varcount and the total number of clauses
 clausenum = len(placementlist) + len(uniquelist) + len(adjacentlist) + len(matchinglist) #+ the counting list
 #varcount is already perfect
-with open(str(i) + ".txt" , mode ='x') as file:
+with open(str(i) + ".cnf" , mode ='x') as file:
 	#write some basic stuff
 	file.write("c for the string {} \n".format(str(i)))
 	file.write("p cnf {} {} \n".format(varcount, clausenum))
