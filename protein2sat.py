@@ -135,7 +135,11 @@ for x in range(len(placementlist)):
 '''
 All placement rules are done. We just need to do the rest of the rules
 The next big one is how we define matches. We need to first define all possible
-matches before we do anything else
+matches before we do anything else. There are two sides of an implication that need to be done
+'''
+
+'''
+Placement implies counting variable
 '''
 # What are the possible matchings, where do they come from?
 # We need to look at every 1, and determine possible matchings from the rest of the string. 
@@ -162,7 +166,6 @@ matchinglist = []
 for x in range(len(i)):
 	if i[x] == "1":
 		indexlist.append(int(x))
-print("index list", indexlist)
  # We have the indexes of all 1's. We can start to add from that
 for x in indexlist:
 	if x == indexlist[len(indexlist)-1]:
@@ -210,12 +213,11 @@ for x in indexlist:
 				pass
 del indexlist
 
-#now, we just need to count
-# outlining it 
-# We construct a binary tree, with n^3 + 1 bewing the starting variable
-# then recursivley go up, counting each permuation of the sum
-# but how to be accomplish this?
-# we need to be recursive on the thigns we create too
+'''
+Counting variable implies exclusive placement
+'''
+
+
 '''
 Final step, other than writing to a file, I just need to count
 Argueably the most difficult step, need to create a lot of clauses, and test based on the target
@@ -226,24 +228,44 @@ Argueably the most difficult step, need to create a lot of clauses, and test bas
 		# create another count variable in its own list
 # Create all permutations of counting, from bottom up.
 # Add each combination to the lsit
-print(n**3 + 1, varcount)
+print("printing something", n**3 + 1, varcount)
 #every non-counting variable
 leaflist= []
 for leafs in range(n**3 + 1, varcount + 1):
 	# Create the initial list
 	leaflist.append(leafs)
-print(leaflist)
-
-countingtree = [[leaflist]]
-#We will create a list for each level of height, which we can calculate, since we know the number of leafs
+countingtree = [leaflist]
+# We need to put in nodes so that we can get a perfect binary tree.
+# Just find the number of leafs we need to do such
+# this is the list of 'dummy' leaves
+dummyleaves = []
 from math import log2
-height = log2(len(leaflist))+1
-print(len(leaflist))
-print(height)
-for h in range(int(height)-1):
-	countingtree.append([])
-print(countingtree)
+while log2(len(leaflist))%1 != 0:
+	varcount = varcount + 1
+	leaflist.append(varcount)
+	dummyleaves.append(varcount)
+#So, lets start by dividing each height by 2, and creating a new list and appending it to the tree
+for level in countingtree:
+	print("printing level", level)
+	length = len(level)
+	length = length//2
+	#if (length % 2 == 1) and (length != 1):
+	#	length = length + 1
+	if length == 0 :
+		break
+	# if it is odd:
+	# increase the variable count by 1 anyways
+	# so that the level above has enough nodes to care for it allS
+	#Grab the last element, and increase it it to the additionall length
+	#from the current varcount + 11 to the new length, we make another variable
+	levelz=[] #the newlist
+	for newleaves in range (varcount+1, varcount+length+1):
+		levelz.append(newleaves)
+	varcount = varcount + length
+	print(len(levelz))
+	countingtree.append(levelz)
 
+print(countingtree)
 '''
 Writing to the file
 '''
@@ -252,29 +274,29 @@ Writing to the file
 #needs da single p for paramaters. Will be the varcount and the total number of clauses
 clausenum = len(placementlist) + len(uniquelist) + len(adjacentlist) + len(matchinglist) #+ the counting list
 #varcount is already perfect
-with open(str(i) + ".cnf" , mode ='x') as file:
-	#write some basic stuff
-	file.write("c for the string {} \n".format(str(i)))
-	file.write("p cnf {} {} \n".format(varcount, clausenum))
-	#start writing the meat
-	for a in placementlist:
-		for b in a:
-			file.write("{} ".format(b))
-		file.write("0 \n")
-	for c in uniquelist:
-		for d in c:
-			file.write("{} ".format(d))
-		file.write("0 \n")
-	for d in adjacentlist:
-		for e in d:
-			file.write("{} ".format(e))
-		file.write("0 \n")
-	for f in matchinglist:
-		for g in f:
-			file.write("{} ".format(g))
-		file.write("0 \n")
-	#for x in countinglist
-		#for l in x:
-			#...
-		#...
+#with open(str(i) + ".cnf" , mode ='x') as file:
+#	#write some basic stuff
+#	file.write("c for the string {} \n".format(str(i)))
+#	file.write("p cnf {} {} \n".format(varcount, clausenum))
+#	#start writing the meat
+#	for a in placementlist:
+#		for b in a:
+#			file.write("{} ".format(b))
+#		file.write("0 \n")
+#	for c in uniquelist:
+#		for d in c:
+#			file.write("{} ".format(d))
+#		file.write("0 \n")
+#	for d in adjacentlist:
+#		for e in d:
+#			file.write("{} ".format(e))
+#		file.write("0 \n")
+#	for f in matchinglist:
+#		for g in f:
+#			file.write("{} ".format(g))
+#		file.write("0 \n")
+#	#for x in countinglist
+#		#for l in x:
+#			#...
+#		#...
 #Done!
