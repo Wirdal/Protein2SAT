@@ -228,8 +228,7 @@ Argueably the most difficult step, need to create a lot of clauses, and test bas
 		# create another count variable in its own list
 # Create all permutations of counting, from bottom up.
 # Add each combination to the lsit
-print("printing something", n**3 + 1, varcount)
-#every non-counting variable
+# every non-counting variable
 leaflist= []
 for leafs in range(n**3 + 1, varcount + 1):
 	# Create the initial list
@@ -243,14 +242,12 @@ from math import log2
 while log2(len(leaflist))%1 != 0:
 	varcount = varcount + 1
 	leaflist.append(varcount)
-	dummyleaves.append(varcount)
+	dummyleaves.append(-varcount)
 #So, lets start by dividing each height by 2, and creating a new list and appending it to the tree
 for level in countingtree:
 	print("printing level", level)
 	length = len(level)
 	length = length//2
-	#if (length % 2 == 1) and (length != 1):
-	#	length = length + 1
 	if length == 0 :
 		break
 	# if it is odd:
@@ -258,14 +255,20 @@ for level in countingtree:
 	# so that the level above has enough nodes to care for it allS
 	#Grab the last element, and increase it it to the additionall length
 	#from the current varcount + 11 to the new length, we make another variable
-	levelz=[] #the newlist
-	for newleaves in range (varcount+1, varcount+length+1):
-		levelz.append(newleaves)
-	varcount = varcount + length
-	print(len(levelz))
-	countingtree.append(levelz)
+	newlevel=[]
+	nodecount = 1
+	for permutations in level:
+		if nodecount % 2 == 0:
+			newlevel.append([varcount+1, varcount+2, varcount+3])
+			varcount = varcount + 3
+		nodecount = nodecount + 1
+	countingtree.append(newlevel)
+	#levelz=[] #the newlist
+	#for newleaves in range (varcount+1, varcount+length+1):
+	#	levelz.append(newleaves)
+	#varcount = varcount + length
+	#countingtree.append(levelz)
 
-print(countingtree)
 '''
 Writing to the file
 '''
@@ -299,4 +302,7 @@ clausenum = len(placementlist) + len(uniquelist) + len(adjacentlist) + len(match
 #		#for l in x:
 #			#...
 #		#...
+#	for x in dummyleaves:
+#		file.write("{} ".format(x))
+#		file.write("0 \n")
 #Done!
