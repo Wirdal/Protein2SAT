@@ -222,53 +222,38 @@ Counting variable implies exclusive placement
 Final step, other than writing to a file, I just need to count
 Argueably the most difficult step, need to create a lot of clauses, and test based on the target
 '''
-
-#while there are still variables to be counted
-	#For each 2 'count' variable
-		# create another count variable in its own list
-# Create all permutations of counting, from bottom up.
-# Add each combination to the lsit
-# every non-counting variable
+# Get all the 'counting variables into one list'
 leaflist= []
 for leafs in range(n**3 + 1, varcount + 1):
 	# Create the initial list
 	leaflist.append(leafs)
-countingtree = [leaflist]
-# We need to put in nodes so that we can get a perfect binary tree.
-# Just find the number of leafs we need to do such
-# this is the list of 'dummy' leaves
+# Create dumy variables to have enough for a perfect binary tree
 dummyleaves = []
 from math import log2
 while log2(len(leaflist))%1 != 0:
 	varcount = varcount + 1
 	leaflist.append(varcount)
-	dummyleaves.append(-varcount)
-#So, lets start by dividing each height by 2, and creating a new list and appending it to the tree
+	dummyleaves.append(varcount)
+countingtree = [leaflist]
+print(leaflist)
+permamount = 2
 for level in countingtree:
-	print("printing level", level)
-	length = len(level)
-	length = length//2
+	length = len(level)//2
 	if length == 0 :
-		break
-	# if it is odd:
-	# increase the variable count by 1 anyways
-	# so that the level above has enough nodes to care for it allS
-	#Grab the last element, and increase it it to the additionall length
-	#from the current varcount + 11 to the new length, we make another variable
+		break # at the top of the tree
 	newlevel=[]
-	nodecount = 1
-	for permutations in level:
-		if nodecount % 2 == 0:
-			newlevel.append([varcount+1, varcount+2, varcount+3])
-			varcount = varcount + 3
-		nodecount = nodecount + 1
+	# For each two variables at the current height
+	# We make one node above it, with 2hprev-1 permuations
+	permamount = (2*permamount)-1
+	for permutation in range(length):
+		templevel=[]
+		for x in range(permamount):
+			varcount = varcount + 1
+			templevel.append(varcount)
+		newlevel.append(templevel)
 	countingtree.append(newlevel)
-	#levelz=[] #the newlist
-	#for newleaves in range (varcount+1, varcount+length+1):
-	#	levelz.append(newleaves)
-	#varcount = varcount + length
-	#countingtree.append(levelz)
-
+	print(len(level))
+	print("printing the level \n", newlevel , "\n")
 '''
 Writing to the file
 '''
