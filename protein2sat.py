@@ -235,7 +235,6 @@ while log2(len(leaflist))%1 != 0:
 	leaflist.append(varcount)
 	dummyleaves.append(varcount)
 countingtree = [leaflist]
-print(leaflist)
 permamount = 2
 for level in countingtree:
 	length = len(level)//2
@@ -252,8 +251,11 @@ for level in countingtree:
 			templevel.append(varcount)
 		newlevel.append(templevel)
 	countingtree.append(newlevel)
-	print(len(level))
-	print("printing the level \n", newlevel , "\n")
+
+# We have the 'counting tree'
+# Just need the 'implication tree'
+# We start at h=1
+# Then count the possible variations
 '''
 Writing to the file
 '''
