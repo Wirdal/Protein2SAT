@@ -254,14 +254,8 @@ def protein2sat(i):
 	# Lets also put each two leafs into their own list
 	tempcounttree = []
 	# For each two, put it into a list
-	count = 0
-	for pair in countingtree[0]:
-		if (count + 1)//2:
-			tempcounttree.append([prevpair, pair])
-			count = count + 1
-		else:
-			prevpair=pair
-			count = count + 1
+	for elem in countingtree[0]:
+		tempcounttree.append([elem])
 	countingtree[0] = tempcounttree
 	del tempcounttree
 	# We have the 'counting tree'
