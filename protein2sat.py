@@ -260,8 +260,15 @@ def protein2sat(i):
 	del tempcounttree
 	# We have the 'counting tree'
 	# Just need to create the logic for it
+	# Placed in the counting list
 	# We start at h=1
 	# Then count the possible variations
+	countinglist = []
+	for height in range(len(countingtree[1:])):
+		for node in range(len(height)):
+			for implication in range(len(node)):
+
+
 	'''
 	Writing to the file
 	'''
