@@ -131,7 +131,6 @@ def protein2sat(i):
 				localadjacencylist.append((matsize + y) - 1)
 			adjacentlist.append(localadjacencylist)
 
-	#print("ADj list", adjacentlist)
 	'''
 	All placement rules are done. We just need to do the rest of the rules
 	The next big one is how we define matches. We need to first define all possible
@@ -234,6 +233,7 @@ def protein2sat(i):
 		varcount = varcount + 1
 		leaflist.append(varcount)
 		dummyleaves.append(varcount)
+	#Begin making the tree
 	countingtree = [leaflist]
 	permamount = 2
 	for level in countingtree:
@@ -244,16 +244,28 @@ def protein2sat(i):
 		# For each two variables at the current height
 		# We make one node above it, with 2hprev-1 permuations
 		permamount = (2*permamount)-1
-		for permutation in range(length):
+		for _ in range(length):
 			templevel=[]
 			for x in range(permamount):
 				varcount = varcount + 1
 				templevel.append(varcount)
 			newlevel.append(templevel)
 		countingtree.append(newlevel)
-
+	# Lets also put each two leafs into their own list
+	tempcounttree = []
+	# For each two, put it into a list
+	count = 0
+	for pair in countingtree[0]:
+		if (count + 1)//2:
+			tempcounttree.append([prevpair, pair])
+			count = count + 1
+		else:
+			prevpair=pair
+			count = count + 1
+	countingtree[0] = tempcounttree
+	del tempcounttree
 	# We have the 'counting tree'
-	# Just need the 'implication tree'
+	# Just need to create the logic for it
 	# We start at h=1
 	# Then count the possible variations
 	'''
