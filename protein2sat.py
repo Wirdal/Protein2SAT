@@ -1,3 +1,8 @@
+
+
+# Making this a global variable
+# Only thing andHelper needs access to
+
 def protein2sat(i):
 	"""Written in python 3.6"""
 	# Getting input
@@ -5,9 +10,8 @@ def protein2sat(i):
 	n = len(i)
 	# Slice the input into a list
 	# A count of how many variables we have
-	varcount = 0
 	"""Placement rules"""
-
+	varcount = 0
 	# Let there be a variable, X(i,j), is either 1 or 0; true or false, if character I is placed in position J
 	# i goes from 1 to n, j goes to  1 to n^2
 	j = []
@@ -213,11 +217,6 @@ def protein2sat(i):
 	del indexlist
 
 	'''
-	Counting variable implies exclusive placement
-	'''
-
-
-	'''
 	Final step, other than writing to a file, I just need to count
 	Argueably the most difficult step, need to create a lot of clauses, and test based on the target
 	'''
@@ -263,19 +262,36 @@ def protein2sat(i):
 	# Placed in the counting list
 	# We start at h=1
 	# Then count the possible variations
-	countinglist = []
-	for height in range(len(countingtree[1:])):
-		for node in range(len(height)):
-			for implication in range(len(node)):
+	##countinglist = []
+	##for height in range(len(countingtree[1:])):
+	##	for node in range(len(height)):
+	##		for implication in range(len(node)):
 
-
+	'''
+	Counting variable implies exclusive placement
+	'''
+	tricklist = []
+	def andHelper(firstElem, secondElem):
+		# Refer to the outer tricklist
+		# SAT logic
+		tricklist.append([firstElem, -varcount])
+		tricklist.append([secondElem, -varcount])
+		tricklist.append([-firstElem, -secondElem, varcount])
+		return varcount
+	# was printing here
+	# print("tricklist", tricklist, "\n")
+	matchinglist2 = []
+	for i in matchinglist:
+		varcount = varcount + 1
+		#
+		matchinglist2.append([andHelper(-i[1],-i[2]),-i[0]])
 	'''
 	Writing to the file
 	'''
 	#recall dimacas format
 	#lines start for c for comment
 	#needs da single p for paramaters. Will be the varcount and the total number of clauses
-	clausenum = len(placementlist) + len(uniquelist) + len(adjacentlist) + len(matchinglist) #+ the counting list
+	clausenum = len(placementlist) + len(uniquelist) + len(adjacentlist) + len(matchinglist) + len(tricklist) + len(matchinglist2) #+ the counting list
 	#varcount is already perfect
 	#with open(str(i) + ".cnf" , mode ='x') as file:
 	#	#write some basic stuff
