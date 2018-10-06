@@ -6,6 +6,7 @@
 def protein2sat(i):
 	"""Written in python 3.6"""
 	# Getting input
+	name = i
 	i = list(i)
 	n = len(i)
 	# Slice the input into a list
@@ -278,8 +279,6 @@ def protein2sat(i):
 		tricklist.append([secondElem, -varcount])
 		tricklist.append([-firstElem, -secondElem, varcount])
 		return varcount
-	# was printing here
-	# print("tricklist", tricklist, "\n")
 	matchinglist2 = []
 	for i in matchinglist:
 		varcount = varcount + 1
@@ -291,11 +290,11 @@ def protein2sat(i):
 	#recall dimacas format
 	#lines start for c for comment
 	#needs da single p for paramaters. Will be the varcount and the total number of clauses
-	clausenum = len(placementlist) + len(uniquelist) + len(adjacentlist) + len(matchinglist) + len(tricklist) + len(matchinglist2) #+ the counting list
-	#varcount is already perfect
-	#with open(str(i) + ".cnf" , mode ='x') as file:
+	#clausenum = len(placementlist) + len(uniquelist) + len(adjacentlist) + len(matchinglist) + len(tricklist) #+ len(matchinglist2) #+ the counting list
+	##varcount is already perfect
+	#with open(name + ".cnf" , mode ='x') as file:
 	#	#write some basic stuff
-	#	file.write("c for the string {} \n".format(str(i)))
+	#	file.write("c for the string {} \n".format(name))
 	#	file.write("p cnf {} {} \n".format(varcount, clausenum))
 	#	#start writing the meat
 	#	for a in placementlist:
@@ -319,8 +318,13 @@ def protein2sat(i):
 	#			#...
 	#		#...
 	#	for x in dummyleaves:
-	#		file.write("{} ".format(x))
+	#		file.write("-{} ".format(x))
 	#		file.write("0 \n")
+	#	for x in tricklist:
+	#		for y in x:
+	#			file.write("{} ".format(y))
+	#		file.write("0 \n")
+
 	#Done!
 if __name__ == "__main__":
 	import sys
