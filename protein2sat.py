@@ -19,19 +19,6 @@ def protein2sat(i):
 		j.append(x)
 
 	'''Rule 1; Each acid must be placed'''
-
-	# Each spot needs to be placed
-	# Creation of X(i,j) represented as a 2d array
-	# We just need to specify that each i will be placed eventualy
-	# So, for every possible combination of i and j, we need to create a variable x.
-	# So this will be i * j big. so n^3 big 
-	# (or of all possible postions for 1) ^ (or of all possbile possitions for 2) ^ .... (or of all possbile for i)
-	#
-	# Matrix = [[0 for x in range(w)] for y in range(h)] 
-	# First array slice denotes the place in the grid, second denotes the place in the input string 
-	#Mat = [[0 for x in range(len(i))] for y in range(len(j))]
-	#print(Mat)
-	# for each place in the grid, for each position, create the placement rule
 	# Creating a way to store each on of these placement rules
 	placementlist = []
 	for x in range(len(i)):
@@ -42,9 +29,7 @@ def protein2sat(i):
 			currentlist.append(varcount)
 		placementlist.append(currentlist)
 	# Now, each slot j has i variables 'assigned' to it. 
-	# Just needs to be written to the file, but this is the last step
 	''' Rule 2, One acid per grid max '''
-	# For each possible pair of acids in each location, not both of those
 	uniquelist = []
 	for index in range(len(placementlist)):
 		firstlist = placementlist[index]
@@ -55,12 +40,6 @@ def protein2sat(i):
 		for firstelem in firstlist:
 				for secondlist in rest:
 					uniquelist.append([-firstelem, -secondlist[firstlist.index(firstelem)]])
-			# we've got all the pieces, just need to put it all together
-		# Finish this
-	#For each list in the matrix
-		# for each elem in the most recent list
-			# For all other lists	
-				# take the elem, and the same elem in the other lists and negate them
 
 	''' Rule 3, each acid must be placed adjacent to the previously placed one. The first is the exception '''
 	adjacentlist =[]
@@ -74,16 +53,8 @@ def protein2sat(i):
 			# Should be done if we get here
 			break
 		
-		# Much like the previous one, however we only needs to look at one list and the
-		# one that immediatley goes after it
 
 		matsize = n**2
-		# We also need to take care of the next things
-		# So the first acid can be placed anywhere. So there are no restircitons
-		# To where it goes
-		# So we only need to go forward
-		# We start at the first list, and create the edges for the first list
-
 		# From 1 to n^2 - n + 1
 		# Needs to get the last
 		# WORKS
@@ -144,26 +115,6 @@ def protein2sat(i):
 	'''
 	Placement implies counting variable
 	'''
-	# What are the possible matchings, where do they come from?
-	# We need to look at every 1, and determine possible matchings from the rest of the string. 
-	# We won't need to look back, same kind of thinking as in 2.
-	# And we still have the same varcount, so we can just keep going from it
-	# But what are the placement rules? there must be some mathematical notation
-	# We need to find a formula
-	# Otherwise, we COULD create variables for everything, but that could be a big slowdown.
-	# No logical problems would be created though. This isn't a placement rule, just a matching one.
-	# But the basic logic for a matching should be
-	# 	Some 1, and some adjacent other 1, -> a matching variable
-	#	A -> B
-	#   (1 ^ 1 (another 1)) -> matching var
-	#   B V -A
-	#	matching var V (-1 V -1(another 1))
-	# NOTE this needs to be done for every possible pair that is next to the first 1
-	# Is it faster to compute at the high level where the next 1's could go?
-	# or is it faster to create variables willy nilly
-	# and let the cnf handle them?
-	# IT does not matter, we just simply need to go to 
-	# Grab the index of every single 1
 	indexlist = []
 	matchinglist = []
 	for x in range(len(i)):
@@ -217,7 +168,7 @@ def protein2sat(i):
 	del indexlist
 
 	'''
-	Final step, other than writing to a file, I just need to count
+	One of the final steps, other than writing to a file, I just need to count
 	Argueably the most difficult step, need to create a lot of clauses, and test based on the target
 	'''
 	# Get all the 'counting variables into one list'
@@ -262,18 +213,29 @@ def protein2sat(i):
 	# Placed in the counting list
 	# We start at h=1
 	# Then count the possible variations
-	##countinglist = []
-	##for height in range(len(countingtree[1:])):
-	##	for node in range(len(height)):
-	##		for implication in range(len(node)):
+	countinglist = []
+	for height in range(len(countingtree)):
+		if height != 0:
+			#do the correct stuff
+			for node in range(len(countingtree[height])):
+				#Grabs each node properly
+				for variable in range(len(countingtree[height][node])):
+					
+					# We have the variable, and its position
+					# Now we need to have the correct logic
+		else:
+			pass
+		# Start from h = 1
+		# Create the links
+		# Len of node % nodes pos
 
 	'''
 	Counting variable implies exclusive placement
 	'''
 	tricklist = []
-	def andHelper(firstElem, secondElem):
-		# Refer to the outer tricklist
-		# SAT logic
+	def andHelper(firstElem, secondElem,):
+		nonlocal varcount
+		varcount = varcount + 1
 		tricklist.append([firstElem, -varcount])
 		tricklist.append([secondElem, -varcount])
 		tricklist.append([-firstElem, -secondElem, varcount])
@@ -282,7 +244,6 @@ def protein2sat(i):
 	# print("tricklist", tricklist, "\n")
 	matchinglist2 = []
 	for i in matchinglist:
-		varcount = varcount + 1
 		#
 		matchinglist2.append([andHelper(-i[1],-i[2]),-i[0]])
 	'''
