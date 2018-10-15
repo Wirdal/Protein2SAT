@@ -254,8 +254,12 @@ def protein2sat(i):
 	# Lets also put each two leafs into their own list
 	tempcounttree = []
 	# For each two, put it into a list
+	# Want this, b/c it is logically what is beneath the lowest level we have
+	count = 0
 	for elem in countingtree[0]:
-		tempcounttree.append([elem])
+		if (count%2 == 1) : #if it is even
+			tempcounttree.append([countingtree[count-1, count])
+		count = count + 1
 	countingtree[0] = tempcounttree
 	del tempcounttree
 	# We have the 'counting tree'
@@ -300,6 +304,7 @@ def protein2sat(i):
 	#	for a in placementlist:
 	#		for b in a:
 	#			file.write("{} ".format(b))
+
 	#		file.write("0 \n")
 	#	for c in uniquelist:
 	#		for d in c:
