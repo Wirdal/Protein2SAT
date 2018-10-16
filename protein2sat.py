@@ -267,22 +267,38 @@ def protein2sat(i):
 	# Then count the possible variations
 	countinglist = []
 	for height, heightlevel in enumerate(countingtree[1:], 1):
-		#Heigt is the index, hight level is the list itself
-		print(height, "\n")
-		print(heightlevel, "\n")
+		#Heigt is the index, hight level is the current list itself
+		prevheight = countingtree[height-1]
 		# gives us our place in the tree itself, start at h=1
 		for node, nodelevel in enumerate(heightlevel, 0):
-			print(nodelevel)
-		##	# Gives our place in what sub list we are at, this is where the fun begins
-		##	# Want to tkae the sub list at some elem, and look at previous height
-		##	prevheight = countingtree[height]
-		##	# look at the corresponding two nodes in there
-		##	# if node is giving us our current sublist index, use that to find out what to refer to
-		##	# = to 2*sublist index, and 2*sublist index+1
-		##	# grab the info, and move into the next level?
-		##	for implication in range(node):
-		##		break
-		##		#Gives our place at the exact element
+			#node level is my current sublist
+
+			#The nodes that we are looking at, a levelbelow
+			firstnode = prevheight[2*node]
+			secondnode = prevheight[(2*node) + 1]
+			for elem, elemlevel in enumerate(nodelevel, 0):
+				if heightlevel == 1:
+					# We know that we're making the comparrison between the leaves
+					# and the first level above it. The logic is slightly different
+					if elemlevel == 0:
+						#create the and that implies none of the children
+						countinglist.append([elem,firstnode[0], secondnode[0]])
+					else if elem == 2:
+						countinglist.append([elem, -firstnode[len(firstnode)-1], -secondnode[len(firstnode)-1]])
+						# create the and that implies all of the childrem
+					else:
+						#otherwise, create the rules that inform of the middle
+						#one on, one off, then vice versa
+						# May need the and helper for this one
+				else:
+					if elemlevel == 0:
+						#imply the furthest left in the nodes
+						countinglist.append([elem,firstnode[0], secondnode[0]])
+					else if elemlevel == len(elem):
+						#imply the furthest right in the nodes
+						countinglist.append([elem, -firstnode[len(firstnode)-1], -secondnode[len(secondnode)-1]])
+					else:  
+						#imply the combinations
 
 	'''
 	Counting variable implies exclusive placement
@@ -299,7 +315,7 @@ def protein2sat(i):
 	for i in matchinglist:
 		varcount = varcount + 1
 		#
-		matchinglist2.append([andHelper(-i[1],-i[2]),-i[0]])
+		matchinglist2.append([andHelper2(-i[1],-i[2]),-i[0]])
 	'''
 	Writing to the file
 	'''
