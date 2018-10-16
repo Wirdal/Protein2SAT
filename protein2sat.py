@@ -260,28 +260,29 @@ def protein2sat(i):
 	countingtree[0] = tempcounttree
 	del tempcounttree
 
-	for i in countingtree:
-		print(i, "\n")
 	# We have the 'counting tree'
 	# Just need to create the logic for it
 	# Placed in the counting list
 	# We start at h=1
 	# Then count the possible variations
 	countinglist = []
-	for height in range(len(countingtree[1:])):
-		# gives us our place in the tree itself, start at h=0
-		for node in range(height):
-			# Gives our place in what sub list we are at, this is where the fun begins
-			# Want to tkae the sub list at some elem, and look at previous height
-			prevheight = countingtree[height-1]
-			# look at the corresponding two nodes in there
-			# if node is giving us our current sublist index, use that to find out what to refer to
-			# = to 2*sublist index, and 2*sublist index+1
-			prevnode= prevheight[2*node], prevheight[2*node + 1]
-			# grab the info, and move into the next level?
-			for implication in range(node):
-				break
-				#Gives our place at the exact element
+	for height, heightlevel in enumerate(countingtree[1:], 1):
+		#Heigt is the index, hight level is the list itself
+		print(height, "\n")
+		print(heightlevel, "\n")
+		# gives us our place in the tree itself, start at h=1
+		for node, nodelevel in enumerate(heightlevel, 0):
+			print(nodelevel)
+		##	# Gives our place in what sub list we are at, this is where the fun begins
+		##	# Want to tkae the sub list at some elem, and look at previous height
+		##	prevheight = countingtree[height]
+		##	# look at the corresponding two nodes in there
+		##	# if node is giving us our current sublist index, use that to find out what to refer to
+		##	# = to 2*sublist index, and 2*sublist index+1
+		##	# grab the info, and move into the next level?
+		##	for implication in range(node):
+		##		break
+		##		#Gives our place at the exact element
 
 	'''
 	Counting variable implies exclusive placement
