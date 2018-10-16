@@ -255,25 +255,33 @@ def protein2sat(i):
 	tempcounttree = []
 	# For each two, put it into a list
 	# Want this, b/c it is logically what is beneath the lowest level we have
-	count = 0
-	for _ in countingtree[0]:
-		if (count%2 == 1): #if it is even
-			tempcounttree.append([countingtree[0][count-1], countingtree[0][count]])
-		count = count + 1
+	for leaf in countingtree[0]:
+		tempcounttree.append([leaf])
 	countingtree[0] = tempcounttree
 	del tempcounttree
-	del count
-	print(countingtree[0])
 
+	for i in countingtree:
+		print(i, "\n")
 	# We have the 'counting tree'
 	# Just need to create the logic for it
 	# Placed in the counting list
 	# We start at h=1
 	# Then count the possible variations
-	##countinglist = []
-	##for height in range(len(countingtree[1:])):
-	##	for node in range(len(height)):
-	##		for implication in range(len(node)):
+	countinglist = []
+	for height in range(len(countingtree[1:])):
+		# gives us our place in the tree itself, start at h=0
+		for node in range(height):
+			# Gives our place in what sub list we are at, this is where the fun begins
+			# Want to tkae the sub list at some elem, and look at previous height
+			prevheight = countingtree[height-1]
+			# look at the corresponding two nodes in there
+			# if node is giving us our current sublist index, use that to find out what to refer to
+			# = to 2*sublist index, and 2*sublist index+1
+			prevnode= prevheight[2*node], prevheight[2*node + 1]
+			# grab the info, and move into the next level?
+			for implication in range(node):
+				break
+				#Gives our place at the exact element
 
 	'''
 	Counting variable implies exclusive placement
