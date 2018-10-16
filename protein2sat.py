@@ -315,7 +315,7 @@ def protein2sat(i):
 	for i in matchinglist:
 		varcount = varcount + 1
 		#
-		matchinglist2.append([andHelper2(-i[1],-i[2]),-i[0]])
+		matchinglist2.append([andHelper(-i[1],-i[2]),-i[0]])
 	'''
 	Writing to the file
 	'''
