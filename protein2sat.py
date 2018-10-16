@@ -256,12 +256,15 @@ def protein2sat(i):
 	# For each two, put it into a list
 	# Want this, b/c it is logically what is beneath the lowest level we have
 	count = 0
-	for elem in countingtree[0]:
-		if (count%2 == 1) : #if it is even
-			tempcounttree.append([countingtree[count-1, count])
+	for _ in countingtree[0]:
+		if (count%2 == 1): #if it is even
+			tempcounttree.append([countingtree[0][count-1], countingtree[0][count]])
 		count = count + 1
 	countingtree[0] = tempcounttree
 	del tempcounttree
+	del count
+	print(countingtree[0])
+
 	# We have the 'counting tree'
 	# Just need to create the logic for it
 	# Placed in the counting list
@@ -291,9 +294,6 @@ def protein2sat(i):
 	'''
 	Writing to the file
 	'''
-	#recall dimacas format
-	#lines start for c for comment
-	#needs da single p for paramaters. Will be the varcount and the total number of clauses
 	#clausenum = len(placementlist) + len(uniquelist) + len(adjacentlist) + len(matchinglist) + len(tricklist) #+ len(matchinglist2) #+ the counting list
 	##varcount is already perfect
 	#with open(name + ".cnf" , mode ='x') as file:
