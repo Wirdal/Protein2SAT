@@ -217,22 +217,6 @@ def protein2sat(i):
 	# We start at h=1
 	# Then count the possible variations
 	countinglist = []
-<<<<<<< HEAD
-	for height in range(len(countingtree)):
-		if height != 0:
-			#do the correct stuff
-			for node in range(len(countingtree[height])):
-				#Grabs each node properly
-				for variable in range(len(countingtree[height][node])):
-					
-					# We have the variable, and its position
-					# Now we need to have the correct logic
-		else:
-			pass
-		# Start from h = 1
-		# Create the links
-		# Len of node % nodes pos
-=======
 	for height, heightlevel in enumerate(countingtree[1:], 1):
 		#Heigt is the index, hight level is the current list itself
 		prevheight = countingtree[height-1]
@@ -250,23 +234,27 @@ def protein2sat(i):
 					if elemlevel == 0:
 						#create the and that implies none of the children
 						countinglist.append([elem,firstnode[0], secondnode[0]])
-					else if elem == 2:
-						countinglist.append([elem, -firstnode[len(firstnode)-1], -secondnode[len(firstnode)-1]])
+					elif elem == 2:
 						# create the and that implies all of the childrem
+						countinglist.append([elem, -firstnode[len(firstnode)-1], -secondnode[len(firstnode)-1]])
 					else:
+						countinglist.append([elem, -firstnode[len(firstnode)-1], secondnode[len(firstnode)-1]])
+						countinglist.append([elem, firstnode[len(firstnode)-1], -secondnode[len(firstnode)-1]])
 						#otherwise, create the rules that inform of the middle
 						#one on, one off, then vice versa
 						# May need the and helper for this one
 				else:
+					## Now we need to count the spot we are at
 					if elemlevel == 0:
 						#imply the furthest left in the nodes
 						countinglist.append([elem,firstnode[0], secondnode[0]])
-					else if elemlevel == len(elem):
+					elif elemlevel == len(elem):
 						#imply the furthest right in the nodes
 						countinglist.append([elem, -firstnode[len(firstnode)-1], -secondnode[len(secondnode)-1]])
 					else:  
+						## TODO write a helper fn that calulates all teh combos that need to be done
 						#imply the combinations
->>>>>>> 4cf0d8eb751bfa9f12bccd6ecee6659973497b87
+						pass
 
 	'''
 	Counting variable implies exclusive placement
