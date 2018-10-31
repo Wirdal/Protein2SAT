@@ -6,6 +6,7 @@
 def protein2sat(i):
 	"""Written in python 3.6"""
 	# Getting input
+	name = i
 	i = list(i)
 	n = len(i)
 	# Slice the input into a list
@@ -204,16 +205,19 @@ def protein2sat(i):
 	# Lets also put each two leafs into their own list
 	tempcounttree = []
 	# For each two, put it into a list
-	for elem in countingtree[0]:
-		tempcounttree.append([elem])
+	# Want this, b/c it is logically what is beneath the lowest level we have
+	for leaf in countingtree[0]:
+		tempcounttree.append([leaf])
 	countingtree[0] = tempcounttree
 	del tempcounttree
+
 	# We have the 'counting tree'
 	# Just need to create the logic for it
 	# Placed in the counting list
 	# We start at h=1
 	# Then count the possible variations
 	countinglist = []
+<<<<<<< HEAD
 	for height in range(len(countingtree)):
 		if height != 0:
 			#do the correct stuff
@@ -228,6 +232,41 @@ def protein2sat(i):
 		# Start from h = 1
 		# Create the links
 		# Len of node % nodes pos
+=======
+	for height, heightlevel in enumerate(countingtree[1:], 1):
+		#Heigt is the index, hight level is the current list itself
+		prevheight = countingtree[height-1]
+		# gives us our place in the tree itself, start at h=1
+		for node, nodelevel in enumerate(heightlevel, 0):
+			#node level is my current sublist
+
+			#The nodes that we are looking at, a levelbelow
+			firstnode = prevheight[2*node]
+			secondnode = prevheight[(2*node) + 1]
+			for elem, elemlevel in enumerate(nodelevel, 0):
+				if heightlevel == 1:
+					# We know that we're making the comparrison between the leaves
+					# and the first level above it. The logic is slightly different
+					if elemlevel == 0:
+						#create the and that implies none of the children
+						countinglist.append([elem,firstnode[0], secondnode[0]])
+					else if elem == 2:
+						countinglist.append([elem, -firstnode[len(firstnode)-1], -secondnode[len(firstnode)-1]])
+						# create the and that implies all of the childrem
+					else:
+						#otherwise, create the rules that inform of the middle
+						#one on, one off, then vice versa
+						# May need the and helper for this one
+				else:
+					if elemlevel == 0:
+						#imply the furthest left in the nodes
+						countinglist.append([elem,firstnode[0], secondnode[0]])
+					else if elemlevel == len(elem):
+						#imply the furthest right in the nodes
+						countinglist.append([elem, -firstnode[len(firstnode)-1], -secondnode[len(secondnode)-1]])
+					else:  
+						#imply the combinations
+>>>>>>> 4cf0d8eb751bfa9f12bccd6ecee6659973497b87
 
 	'''
 	Counting variable implies exclusive placement
@@ -240,8 +279,6 @@ def protein2sat(i):
 		tricklist.append([secondElem, -varcount])
 		tricklist.append([-firstElem, -secondElem, varcount])
 		return varcount
-	# was printing here
-	# print("tricklist", tricklist, "\n")
 	matchinglist2 = []
 	for i in matchinglist:
 		#
@@ -249,19 +286,17 @@ def protein2sat(i):
 	'''
 	Writing to the file
 	'''
-	#recall dimacas format
-	#lines start for c for comment
-	#needs da single p for paramaters. Will be the varcount and the total number of clauses
-	clausenum = len(placementlist) + len(uniquelist) + len(adjacentlist) + len(matchinglist) + len(tricklist) + len(matchinglist2) #+ the counting list
-	#varcount is already perfect
-	#with open(str(i) + ".cnf" , mode ='x') as file:
+	#clausenum = len(placementlist) + len(uniquelist) + len(adjacentlist) + len(matchinglist) + len(tricklist) #+ len(matchinglist2) #+ the counting list
+	##varcount is already perfect
+	#with open(name + ".cnf" , mode ='x') as file:
 	#	#write some basic stuff
-	#	file.write("c for the string {} \n".format(str(i)))
+	#	file.write("c for the string {} \n".format(name))
 	#	file.write("p cnf {} {} \n".format(varcount, clausenum))
 	#	#start writing the meat
 	#	for a in placementlist:
 	#		for b in a:
 	#			file.write("{} ".format(b))
+
 	#		file.write("0 \n")
 	#	for c in uniquelist:
 	#		for d in c:
@@ -280,8 +315,13 @@ def protein2sat(i):
 	#			#...
 	#		#...
 	#	for x in dummyleaves:
-	#		file.write("{} ".format(x))
+	#		file.write("-{} ".format(x))
 	#		file.write("0 \n")
+	#	for x in tricklist:
+	#		for y in x:
+	#			file.write("{} ".format(y))
+	#		file.write("0 \n")
+
 	#Done!
 if __name__ == "__main__":
 	import sys
