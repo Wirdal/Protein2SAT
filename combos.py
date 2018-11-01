@@ -4,10 +4,11 @@ def combos(target, limit):
 		combolist=[]
 		limit = limit + 1
 		for lower in range(limit):
-			print(lower)
 			for higher in range(limit):
 				if lower + higher == target:
 					# if lower + higher <= limit:
 					combolist.append([lower, higher])
 		return combolist
-print(combos(4,2))
+		# Going to have target + 1 combos if the limit is the length
+		# If target is even, should grab (target/2) + 1
+		# otherwise, grab 
