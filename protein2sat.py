@@ -216,9 +216,22 @@ def protein2sat(i):
 	# Placed in the counting list
 	# We start at h=1
 	# Then count the possible variations
+	def combos(target, limit):
+		#target is the number that we are looking for
+		# limit is how high we can go
+		combolist=[]
+		for lower in range(limit):
+			for higher in range(limit):
+				if lower + higher == target:
+					if lower + higher <= limit:
+						combolist.append([lower, higher])
+		return combolist
+
+
 	countinglist = []
 	for height, heightlevel in enumerate(countingtree[1:], 1):
 		#Heigt is the index, hight level is the current list itself
+		#start from slightly above, because we have nothing to imply below that
 		prevheight = countingtree[height-1]
 		# gives us our place in the tree itself, start at h=1
 		for node, nodelevel in enumerate(heightlevel, 0):
@@ -230,12 +243,12 @@ def protein2sat(i):
 			for elem, elemlevel in enumerate(nodelevel, 0):
 				if heightlevel == 1:
 					# We know that we're making the comparrison between the leaves
-					# and the first level above it. The logic is slightly different
+					# and the first level above it. The logic is slightly different, with just two combinations
 					if elemlevel == 0:
 						#create the and that implies none of the children
 						countinglist.append([elem,firstnode[0], secondnode[0]])
-					elif elem == 2:
-						# create the and that implies all of the childrem
+					elif elemlevel == 2:
+						# create the and that implies all of the children
 						countinglist.append([elem, -firstnode[len(firstnode)-1], -secondnode[len(firstnode)-1]])
 					else:
 						countinglist.append([elem, -firstnode[len(firstnode)-1], secondnode[len(firstnode)-1]])
@@ -253,6 +266,14 @@ def protein2sat(i):
 						countinglist.append([elem, -firstnode[len(firstnode)-1], -secondnode[len(secondnode)-1]])
 					else:  
 						## TODO write a helper fn that calulates all teh combos that need to be done
+						# From the beginning of the list
+						#	To the elem
+						for combo in combos(elemlevel, len(firstnode)): #which one we take the length of does not matter
+							# if they are equal, need to do both
+							if combo[0] == combo[1]:
+								# imply both
+							else:
+								countinglist.append([elem, firstnode[combo[0]], secondnode[combo[1]])
 						#imply the combinations
 						pass
 
