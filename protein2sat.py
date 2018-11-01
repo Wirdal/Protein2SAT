@@ -328,9 +328,9 @@ def protein2sat(i):
 	#			file.write("{} ".format(y))
 	#		file.write("0 \n")
 
-	#Done!
-# if __name__ == "__main__":
-	# import sys
-	# protein2sat(sys.argv[1])
+	# Done!
+if __name__ == "__main__":
+	import sys
+	protein2sat(sys.argv[1])
 
-protein2sat("1001")
+# protein2sat("1001")
