@@ -171,6 +171,7 @@ def protein2sat(i):
 	'''
 	One of the final steps, other than writing to a file, I just need to count
 	Argueably the most difficult step, need to create a lot of clauses, and test based on the target
+	Hopefully it should be done
 	'''
 	# Get all the 'counting variables into one list'
 	leaflist= []
@@ -185,7 +186,7 @@ def protein2sat(i):
 		leaflist.append(varcount)
 		dummyleaves.append(varcount)
 	#Begin making the tree
-	countingtree = [leaflist]
+	countingtree = [leaflist] #just added the leafs
 	permamount = 2
 	for level in countingtree:
 		length = len(level)//2
@@ -210,7 +211,6 @@ def protein2sat(i):
 		tempcounttree.append([leaf])
 	countingtree[0] = tempcounttree
 	del tempcounttree
-
 	# We have the 'counting tree'
 	# Just need to create the logic for it
 	# Placed in the counting list
@@ -220,11 +220,12 @@ def protein2sat(i):
 		#target is the number that we are looking for
 		# limit is how high we can go
 		combolist=[]
+		limit = limit + 1
 		for lower in range(limit):
 			for higher in range(limit):
 				if lower + higher == target:
-					if lower + higher <= limit:
-						combolist.append([lower, higher])
+					# if lower + higher <= limit:
+					combolist.append([lower, higher])
 		return combolist
 
 
@@ -241,41 +242,37 @@ def protein2sat(i):
 			firstnode = prevheight[2*node]
 			secondnode = prevheight[(2*node) + 1]
 			for elem, elemlevel in enumerate(nodelevel, 0):
-				if heightlevel == 1:
+				if height == 1:
 					# We know that we're making the comparrison between the leaves
 					# and the first level above it. The logic is slightly different, with just two combinations
-					if elemlevel == 0:
+					if elem == 0:
 						#create the and that implies none of the children
-						countinglist.append([elem,firstnode[0], secondnode[0]])
-					elif elemlevel == 2:
+						countinglist.append([elemlevel,firstnode[0], secondnode[0]])
+					elif elem == 2:
 						# create the and that implies all of the children
-						countinglist.append([elem, -firstnode[len(firstnode)-1], -secondnode[len(firstnode)-1]])
+						countinglist.append([elemlevel, -firstnode[len(firstnode)-1], -secondnode[len(firstnode)-1]])
 					else:
-						countinglist.append([elem, -firstnode[len(firstnode)-1], secondnode[len(firstnode)-1]])
-						countinglist.append([elem, firstnode[len(firstnode)-1], -secondnode[len(firstnode)-1]])
+						countinglist.append([elemlevel, -firstnode[len(firstnode)-1], secondnode[len(firstnode)-1]])
+						countinglist.append([elemlevel, firstnode[len(firstnode)-1], -secondnode[len(firstnode)-1]])
 						#otherwise, create the rules that inform of the middle
 						#one on, one off, then vice versa
 						# May need the and helper for this one
 				else:
 					## Now we need to count the spot we are at
-					if elemlevel == 0:
+					if elem == 0:
 						#imply the furthest left in the nodes
-						countinglist.append([elem,firstnode[0], secondnode[0]])
-					elif elemlevel == len(elem):
+						countinglist.append([elemlevel,firstnode[0], secondnode[0]])
+					elif elem == len(nodelevel):
 						#imply the furthest right in the nodes
-						countinglist.append([elem, -firstnode[len(firstnode)-1], -secondnode[len(secondnode)-1]])
+						countinglist.append([elemlevel, -firstnode[len(firstnode)-1], -secondnode[len(secondnode)-1]])
 					else:  
 						## TODO write a helper fn that calulates all teh combos that need to be done
 						# From the beginning of the list
 						#	To the elem
-						for combo in combos(elemlevel, len(firstnode)): #which one we take the length of does not matter
-							# if they are equal, need to do both
-							if combo[0] == combo[1]:
-								# imply both
-							else:
-								countinglist.append([elem, firstnode[combo[0]], secondnode[combo[1]])
+						comboss = combos(elem, len(firstnode))
+						for combo in comboss: #which one we take the length of does not matter
+							countinglist.append([elemlevel, -firstnode[combo[0]], -secondnode[combo[1]]])
 						#imply the combinations
-						pass
 
 	'''
 	Counting variable implies exclusive placement
@@ -332,6 +329,8 @@ def protein2sat(i):
 	#		file.write("0 \n")
 
 	#Done!
-if __name__ == "__main__":
-	import sys
-	protein2sat(sys.argv[1])
+# if __name__ == "__main__":
+	# import sys
+	# protein2sat(sys.argv[1])
+
+protein2sat("1001")
