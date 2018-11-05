@@ -171,7 +171,6 @@ def protein2sat(i):
 	'''
 	One of the final steps, other than writing to a file, I just need to count
 	Argueably the most difficult step, need to create a lot of clauses, and test based on the target
-	Hopefully it should be done
 	'''
 	# Get all the 'counting variables into one list'
 	leaflist= []
@@ -186,7 +185,7 @@ def protein2sat(i):
 		leaflist.append(varcount)
 		dummyleaves.append(varcount)
 	#Begin making the tree
-	countingtree = [leaflist] #just added the leafs
+	countingtree = [leaflist]
 	permamount = 2
 	for level in countingtree:
 		length = len(level)//2
@@ -211,6 +210,7 @@ def protein2sat(i):
 		tempcounttree.append([leaf])
 	countingtree[0] = tempcounttree
 	del tempcounttree
+
 	# We have the 'counting tree'
 	# Just need to create the logic for it
 	# Placed in the counting list
@@ -220,12 +220,11 @@ def protein2sat(i):
 		#target is the number that we are looking for
 		# limit is how high we can go
 		combolist=[]
-		limit = limit + 1
 		for lower in range(limit):
 			for higher in range(limit):
 				if lower + higher == target:
-					# if lower + higher <= limit:
-					combolist.append([lower, higher])
+					if lower + higher <= limit:
+						combolist.append([lower, higher])
 		return combolist
 
 
@@ -242,37 +241,34 @@ def protein2sat(i):
 			firstnode = prevheight[2*node]
 			secondnode = prevheight[(2*node) + 1]
 			for elem, elemlevel in enumerate(nodelevel, 0):
-				if height == 1:
+				if heightlevel == 1:
 					# We know that we're making the comparrison between the leaves
 					# and the first level above it. The logic is slightly different, with just two combinations
-					if elem == 0:
+					if elemlevel == 0:
 						#create the and that implies none of the children
-						countinglist.append([elemlevel,firstnode[0], secondnode[0]])
-					elif elem == 2:
+						countinglist.append([elem,firstnode[0], secondnode[0]])
+					elif elemlevel == 2:
 						# create the and that implies all of the children
-						countinglist.append([elemlevel, -firstnode[len(firstnode)-1], -secondnode[len(firstnode)-1]])
+						countinglist.append([elem, -firstnode[len(firstnode)-1], -secondnode[len(firstnode)-1]])
 					else:
-						countinglist.append([elemlevel, -firstnode[len(firstnode)-1], secondnode[len(firstnode)-1]])
-						countinglist.append([elemlevel, firstnode[len(firstnode)-1], -secondnode[len(firstnode)-1]])
+						countinglist.append([elem, -firstnode[len(firstnode)-1], secondnode[len(firstnode)-1]])
+						countinglist.append([elem, firstnode[len(firstnode)-1], -secondnode[len(firstnode)-1]])
 						#otherwise, create the rules that inform of the middle
 						#one on, one off, then vice versa
 						# May need the and helper for this one
 				else:
 					## Now we need to count the spot we are at
-					if elem == 0:
+					if elemlevel == 0:
 						#imply the furthest left in the nodes
-						countinglist.append([elemlevel,firstnode[0], secondnode[0]])
-					elif elem == len(nodelevel):
+						countinglist.append([elem,-firstnode[0], -secondnode[0]])
+					elif elemlevel == elem:
 						#imply the furthest right in the nodes
-						countinglist.append([elemlevel, -firstnode[len(firstnode)-1], -secondnode[len(secondnode)-1]])
-					else:  
-						## TODO write a helper fn that calulates all teh combos that need to be done
-						# From the beginning of the list
-						#	To the elem
-						comboss = combos(elem, len(firstnode))
-						for combo in comboss: #which one we take the length of does not matter
-							countinglist.append([elemlevel, -firstnode[combo[0]], -secondnode[combo[1]]])
+						countinglist.append([elem, -firstnode[len(firstnode)-1], -secondnode[len(secondnode)-1]])
+					else:
+						for combo in combos(elemlevel, len(firstnode)): #which one we take the length of does not matter
+							countinglist.append([elem, -firstnode[combo[0]], -secondnode[combo[1]]])
 						#imply the combinations
+						pass
 
 	'''
 	Counting variable implies exclusive placement
@@ -292,45 +288,45 @@ def protein2sat(i):
 	'''
 	Writing to the file
 	'''
-	#clausenum = len(placementlist) + len(uniquelist) + len(adjacentlist) + len(matchinglist) + len(tricklist) #+ len(matchinglist2) #+ the counting list
+	clausenum = len(placementlist) + len(uniquelist) + len(adjacentlist) + len(matchinglist) + len(tricklist) + len(matchinglist2) + len(countinglist) + len(dummyleaves)
 	##varcount is already perfect
-	#with open(name + ".cnf" , mode ='x') as file:
-	#	#write some basic stuff
-	#	file.write("c for the string {} \n".format(name))
-	#	file.write("p cnf {} {} \n".format(varcount, clausenum))
-	#	#start writing the meat
-	#	for a in placementlist:
-	#		for b in a:
-	#			file.write("{} ".format(b))
-
-	#		file.write("0 \n")
-	#	for c in uniquelist:
-	#		for d in c:
-	#			file.write("{} ".format(d))
-	#		file.write("0 \n")
-	#	for d in adjacentlist:
-	#		for e in d:
-	#			file.write("{} ".format(e))
-	#		file.write("0 \n")
-	#	for f in matchinglist:
-	#		for g in f:
-	#			file.write("{} ".format(g))
-	#		file.write("0 \n")
-	#	#for x in countinglist
-	#		#for l in x:
-	#			#...
-	#		#...
-	#	for x in dummyleaves:
-	#		file.write("-{} ".format(x))
-	#		file.write("0 \n")
-	#	for x in tricklist:
-	#		for y in x:
-	#			file.write("{} ".format(y))
-	#		file.write("0 \n")
-
-	# Done!
+	with open(name + ".cnf" , mode ='x') as file:
+	#write some basic stuff
+		file.write("c for the string {} \n".format(name))
+		file.write("p cnf {} {} \n".format(varcount, clausenum))
+		#start writing the meat
+		for a in placementlist:
+			for b in a:
+				file.write("{} ".format(b))
+			file.write("0 \n")
+		for c in uniquelist:
+			for d in c:
+				file.write("{} ".format(d))
+			file.write("0 \n")
+		for d in adjacentlist:
+			for e in d:
+				file.write("{} ".format(e))
+			file.write("0 \n")
+		for f in matchinglist:
+			for g in f:
+				file.write("{} ".format(g))
+			file.write("0 \n")
+		for f in matchinglist2:
+			for g in f:
+				file.write("{} ".format(g))
+			file.write("0 \n")
+		for x in countinglist:
+			for l in x:
+				file.write("{}".format(l))
+			file.write("0 \n")
+		for x in dummyleaves:
+			file.write("-{} ".format(x))
+			file.write("0 \n")
+		for x in tricklist:
+			for y in x:
+				file.write("{} ".format(y))
+			file.write("0 \n")
+		#Done!
 if __name__ == "__main__":
 	import sys
 	protein2sat(sys.argv[1])
-
-# protein2sat("1001")
