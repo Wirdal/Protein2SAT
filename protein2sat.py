@@ -318,7 +318,7 @@ def protein2sat(i):
 			file.write("0 \n")
 		for x in countinglist:
 			for l in x:
-				file.write("{}".format(l))
+				file.write("{} ".format(l))
 			file.write("0 \n")
 		for x in dummyleaves:
 			file.write("-{} ".format(x))
