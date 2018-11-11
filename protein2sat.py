@@ -241,32 +241,32 @@ def protein2sat(i):
 			firstnode = prevheight[2*node]
 			secondnode = prevheight[(2*node) + 1]
 			for elem, elemlevel in enumerate(nodelevel, 0):
-				if heightlevel == 1:
+				if height == 1:
 					# We know that we're making the comparrison between the leaves
 					# and the first level above it. The logic is slightly different, with just two combinations
-					if elemlevel == 0:
+					if elem == 0:
 						#create the and that implies none of the children
-						countinglist.append([elem,firstnode[0], secondnode[0]])
-					elif elemlevel == 2:
+						countinglist.append([nodelevel[elem],firstnode[0], secondnode[0]])
+					elif elem == 2:
 						# create the and that implies all of the children
-						countinglist.append([elem, -firstnode[len(firstnode)-1], -secondnode[len(firstnode)-1]])
+						countinglist.append([nodelevel[elem], -firstnode[len(firstnode)-1], -secondnode[len(firstnode)-1]])
 					else:
-						countinglist.append([elem, -firstnode[len(firstnode)-1], secondnode[len(firstnode)-1]])
-						countinglist.append([elem, firstnode[len(firstnode)-1], -secondnode[len(firstnode)-1]])
+						countinglist.append([nodelevel[elem], -firstnode[len(firstnode)-1], secondnode[len(firstnode)-1]])
+						countinglist.append([nodelevel[elem], firstnode[len(firstnode)-1], -secondnode[len(firstnode)-1]])
 						#otherwise, create the rules that inform of the middle
 						#one on, one off, then vice versa
 						# May need the and helper for this one
 				else:
 					## Now we need to count the spot we are at
-					if elemlevel == 0:
+					if elem == 0:
 						#imply the furthest left in the nodes
-						countinglist.append([elem,-firstnode[0], -secondnode[0]])
-					elif elemlevel == elem:
+						countinglist.append([nodelevel[elem],-firstnode[0], -secondnode[0]])
+					elif elem == elem:
 						#imply the furthest right in the nodes
-						countinglist.append([elem, -firstnode[len(firstnode)-1], -secondnode[len(secondnode)-1]])
+						countinglist.append([nodelevel[elem], -firstnode[len(firstnode)-1], -secondnode[len(secondnode)-1]])
 					else:
 						for combo in combos(elemlevel, len(firstnode)): #which one we take the length of does not matter
-							countinglist.append([elem, -firstnode[combo[0]], -secondnode[combo[1]]])
+							countinglist.append([nodelevel[elem], -firstnode[combo[0]], -secondnode[combo[1]]])
 						#imply the combinations
 						pass
 
@@ -289,6 +289,7 @@ def protein2sat(i):
 	Writing to the file
 	'''
 	clausenum = len(placementlist) + len(uniquelist) + len(adjacentlist) + len(matchinglist) + len(tricklist) + len(matchinglist2) + len(countinglist) + len(dummyleaves)
+	# print(countinglist[len(countinglist)], "\n")
 	##varcount is already perfect
 	with open(name + ".cnf" , mode ='x') as file:
 	#write some basic stuff
