@@ -291,7 +291,7 @@ def protein2sat(i):
 	'''
 	Writing to the file
 	'''
-	clausenum = len(placementlist) + len(uniquelist) + len(adjacentlist) + len(matchinglist) + len(tricklist) + len(matchinglist2) + len(dummyleaves)
+	clausenum = len(placementlist) + len(uniquelist) + len(adjacentlist) + len(matchinglist) + len(tricklist) + len(matchinglist2) + len(dummyleaves) + len(countinglist)
 	# print(countinglist[len(countinglist)], "\n")
 	##varcount is already perfect
 	with open(name + ".cnf" , mode ='x') as file:
@@ -319,10 +319,10 @@ def protein2sat(i):
 			for g in f:
 				file.write("{} ".format(g))
 			file.write("0 \n")
-		# for x in countinglist:
-		# 	for l in x:
-		# 		file.write("{} ".format(l))
-		# 	file.write("0 \n")
+		for x in countinglist:
+			for l in x:
+				file.write("{} ".format(l))
+			file.write("0 \n")
 		for x in dummyleaves:
 			file.write("-{} ".format(x))
 			file.write("0 \n")
@@ -334,4 +334,4 @@ def protein2sat(i):
 if __name__ == "__main__":
 	import sys
 	protein2sat(sys.argv[1])
-	print("Exiting...")
+	print("Exiting succesfully...")
