@@ -3,7 +3,7 @@
 # Making this a global variable
 # Only thing andHelper needs access to
 
-def protein2sat(i):
+def protein2sat(i, target=0):
 	"""Written in python 3.6"""
 	# Getting input
 	name = i
