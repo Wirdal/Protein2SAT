@@ -51,17 +51,14 @@ def protein2sat(i, target=0):
 			# This is the one that should cause the index error
 			secondlist = placementlist[x + 1]
 		except IndexError:
-			# Should be done if we get here
 			break
 		
 
 		matsize = n**2
 		# From 1 to n^2 - n + 1
 		# Needs to get the last
-		# WORKS
 		leftedge = firstlist[::n]
 		# From 1 to n
-		# WORKS
 		topedge = firstlist[:n]
 		# from n to n^2 by n steps
 		rightedge = firstlist[n-1::n]
@@ -69,7 +66,6 @@ def protein2sat(i, target=0):
 		# A very lazy way of getting these, but it works
 		firstlist.reverse()
 		bottomedge = firstlist[:n]
-		# To confirm by eye faster
 		bottomedge.reverse()
 		firstlist.reverse()
 		# Now we need to check if we're in the edge
