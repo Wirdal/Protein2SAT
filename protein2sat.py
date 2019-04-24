@@ -111,7 +111,13 @@ def protein2sat(i, target=0):
 
 	'''
 	Placement implies counting variable
+	We define that placement in the grid of certain conditions (two non sequential 1's are placed adjacent)
+	creates a counting variable, and if that placement happens during the SAT solving, then the counting variable
+	will be true
+
 	'''
+
+	# Get the indice of all 1's. We need to find what are valid matchings
 	indexlist = []
 	matchinglist = []
 	for x in range(len(i)):
@@ -271,6 +277,7 @@ def protein2sat(i, target=0):
 
 	'''
 	Counting variable implies exclusive placement
+	This defined down for a reason, but I don't recall why
 	'''
 	tricklist = []
 	def andHelper(firstElem, secondElem,):
@@ -282,7 +289,6 @@ def protein2sat(i, target=0):
 		return varcount
 	matchinglist2 = []
 	for i in matchinglist:
-		#
 		matchinglist2.append([andHelper(-i[1],-i[2]),-i[0]])
 	'''
 	Writing to the file
